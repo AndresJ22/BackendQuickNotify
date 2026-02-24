@@ -15,9 +15,17 @@ export class NotificationService {
     // Strategy Pattern: behavior is delegated to the selected strategy.
     const result = await strategy.send(message);
 
+    // Singleton Pattern: this counter is shared across the entire app.
+    const count = this.configService.incrementNotificationCount();
+
     console.log(
-      `${this.configService.appName} processed notification: ${type}`,
+      `[${this.configService.getAppName()} v${this.configService.getVersion()}] ` +
+      `Notification #${count} processed: ${type}`,
     );
     return result;
+  }
+
+  getStats(): { appName: string; version: string; notificationsSent: number } {
+    return this.configService.getAppInfo();
   }
 }

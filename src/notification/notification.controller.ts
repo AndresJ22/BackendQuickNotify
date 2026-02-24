@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
 import { SendNotificationDto } from './dto/send-notification.dto';
 import { NotificationService } from './notification.service';
 
@@ -14,5 +14,11 @@ export class NotificationController {
     );
 
     return { result };
+  }
+
+  // Singleton Pattern endpoint
+  @Get('stats')
+  getStats(): { appName: string; version: string; notificationsSent: number } {
+    return this.notificationService.getStats();
   }
 }
